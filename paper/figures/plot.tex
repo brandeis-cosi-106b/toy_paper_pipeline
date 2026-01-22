@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    bar width=1.5cm,
+    ylabel={Mean Response Time (ms)},
+    symbolic x coords={Baseline, Treatment},
+    xtick=data,
+    ymin=0,
+    ymax=300,
+    width=10cm,
+    height=7cm,
+    nodes near coords,
+    every node near coord/.append style={font=\small},
+]
+\addplot[fill=blue!60] table[x=condition, y=mean] {plot_data.dat};
+\end{axis}
+\end{tikzpicture}
+\end{document}

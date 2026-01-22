@@ -1,0 +1,32 @@
+# Build artifacts
+build/
+
+# LaTeX temporary files
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Generated figures and intermediate data
+paper/figures/plot.pdf
+paper/figures/plot_data.dat
+paper/figures/*.aux
+paper/figures/*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
