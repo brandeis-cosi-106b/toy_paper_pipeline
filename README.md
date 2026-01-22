@@ -14,23 +14,25 @@ You'll need these installed:
 **macOS**:
 - make: Should be pre-installed, or install with `xcode-select --install`
 - LaTeX: **Two options**
-  - **Option 1 - BasicTeX** (~100MB, faster):
+  - **Option 1 - BasicTeX** (~100MB, minimal):
     1. Download and install [BasicTeX](https://www.tug.org/mactex/morepackages.html)
     2. Install required packages:
        ```bash
        sudo tlmgr update --self
        sudo tlmgr install pgfplots
        ```
-  - **Option 2 - MacTeX** (~4GB, includes everything): Install [MacTeX](https://www.tug.org/mactex/)
+  - **Option 2 - MacTeX** (~4GB, full distribution): Install [MacTeX](https://www.tug.org/mactex/)
 
 **Linux**:
 - make: `sudo apt install build-essential`
-- LaTeX: `sudo apt install texlive-latex-extra texlive-fonts-recommended`
-  - Note: `texlive-latex-extra` includes pgfplots
+- LaTeX (~450-500MB, includes pgfplots):
+  ```bash
+  sudo apt install texlive-latex-extra texlive-fonts-recommended
+  ```
 
 **Windows**:
-- Recommended: Use WSL (Windows Subsystem for Linux), then follow Linux instructions
-- Alternative: [MiKTeX](https://miktex.org/) for LaTeX, MinGW for make
+- Recommended: Use WSL (Windows Subsystem for Linux), then follow Linux instructions above
+- Alternative: [MiKTeX](https://miktex.org/) for LaTeX (~200MB), MinGW for make
 
 **Note**: If you can't get LaTeX installed, partner with someone who has it working. Observing the build process is still valuable.
 
