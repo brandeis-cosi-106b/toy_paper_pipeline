@@ -14,7 +14,7 @@ No external dependencies required - uses only Python standard library.
 import csv
 from pathlib import Path
 
-def main():
+def main() -> None:
     # Read the data using standard library
     baseline_times = []
     treatment_times = []
@@ -45,15 +45,15 @@ def main():
     with open('build/analysis.txt', 'w') as f:
         f.write("Experimental Analysis Results\n")
         f.write("=" * 40 + "\n\n")
-        f.write(f"Baseline condition:\n")
+        f.write("Baseline condition:\n")
         f.write(f"  Mean response time: {baseline_mean:.1f} ms\n")
         f.write(f"  Accuracy: {baseline_acc:.1%}\n\n")
-        f.write(f"Treatment condition:\n")
+        f.write("Treatment condition:\n")
         f.write(f"  Mean response time: {treatment_mean:.1f} ms\n")
         f.write(f"  Accuracy: {treatment_acc:.1%}\n\n")
         f.write(f"Difference: {baseline_mean - treatment_mean:.1f} ms faster in treatment\n")
 
-    print(f"✓ Analysis complete: build/analysis.txt")
+    print("✓ Analysis complete: build/analysis.txt")
 
     # Write plot data for LaTeX to consume
     # This demonstrates Python as a preprocessor - it computes values,
@@ -64,7 +64,7 @@ def main():
         f.write(f"Baseline {baseline_mean:.1f}\n")
         f.write(f"Treatment {treatment_mean:.1f}\n")
 
-    print(f"✓ Plot data prepared: paper/figures/plot_data.dat")
+    print("✓ Plot data prepared: paper/figures/plot_data.dat")
 
 if __name__ == '__main__':
     main()

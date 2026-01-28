@@ -9,13 +9,79 @@ BUILD_DIR := build
 DATA_DIR := data
 SCRIPTS_DIR := scripts
 
-.PHONY: all paper analysis clean
+# Define which Python files are part of the pipeline vs examples
+PIPELINE_PYTHON := $(SCRIPTS_DIR)/analyze.py
+EXAMPLE_PYTHON := $(SCRIPTS_DIR)/examples/linter_issues.py $(SCRIPTS_DIR)/examples/type_issues.py
+
+.PHONY: all paper analysis clean lint lint-examples typecheck typecheck-examples check check-examples validate demo-bootstrapping
 
 all: paper
 
 paper: $(BUILD_DIR)/paper.pdf
 
 analysis: $(BUILD_DIR)/analysis.txt $(PAPER_DIR)/figures/plot.pdf
+
+# Correctness automation targets
+lint:
+	@echo "Running linter on pipeline code: $(PIPELINE_PYTHON)"
+	@ruff check $(PIPELINE_PYTHON) && echo "✓ No linter issues found" || echo "⚠ Linter found issues"
+
+lint-examples:
+	@echo "Running linter on example files (intentionally problematic):"
+	@echo "  $(EXAMPLE_PYTHON)"
+	@ruff check $(EXAMPLE_PYTHON) || echo "⚠ Linter found issues (expected)"
+
+typecheck:
+	@echo "Running type checker on pipeline code: $(PIPELINE_PYTHON)"
+	@mypy --strict $(PIPELINE_PYTHON) && echo "✓ No type issues found" || echo "⚠ Type checker found issues"
+
+typecheck-examples:
+	@echo "Running type checker on example files (intentionally problematic):"
+	@for file in $(EXAMPLE_PYTHON); do echo "  $$file"; mypy --strict $$file || true; done
+
+check: lint typecheck
+	@echo "✓ Main pipeline checks complete"
+
+check-examples: lint-examples typecheck-examples
+	@echo "✓ Example checks complete (errors expected)"
+
+# Data validation (demonstrates boundary agreement checking)
+validate:
+	@echo "Validating data files..."
+	@$(PYTHON) $(SCRIPTS_DIR)/validate_data.py $(DATA_DIR)/results.csv
+
+# Bootstrapping problem demonstration
+# This target intentionally has INCOMPLETE dependencies to show that Make
+# cannot know what's missing unless humans explicitly declare it.
+#
+# Try this experiment:
+#   1. make clean
+#   2. make demo-bootstrapping
+#   3. touch data/results.csv
+#   4. make demo-bootstrapping  (Will say "nothing to be done" - WRONG!)
+#
+# The problem: This target doesn't list data/results.csv as a dependency,
+# so Make doesn't know to rebuild when data changes.
+#
+# This is the BOOTSTRAPPING PROBLEM: Make cannot infer dependencies.
+# Humans must correctly specify them.
+$(BUILD_DIR)/paper-incomplete.pdf: $(PAPER_DIR)/main.tex $(PAPER_DIR)/figures/plot.pdf
+	@echo "Building paper with INCOMPLETE dependency tracking..."
+	@echo "(This intentionally omits sections/*.tex and references.bib)"
+	@mkdir -p $(BUILD_DIR)
+	@cd $(PAPER_DIR) && $(PDFLATEX) -interaction=nonstopmode -output-directory=../$(BUILD_DIR) main.tex > /dev/null
+	@cp $(PAPER_DIR)/references.bib $(BUILD_DIR)/
+	@cd $(BUILD_DIR) && $(BIBTEX) main > /dev/null
+	@cd $(PAPER_DIR) && $(PDFLATEX) -interaction=nonstopmode -output-directory=../$(BUILD_DIR) main.tex > /dev/null
+	@cd $(PAPER_DIR) && $(PDFLATEX) -interaction=nonstopmode -output-directory=../$(BUILD_DIR) main.tex > /dev/null
+	@cp $(BUILD_DIR)/main.pdf $(BUILD_DIR)/paper-incomplete.pdf
+	@echo "✓ Built: $(BUILD_DIR)/paper-incomplete.pdf"
+	@echo ""
+	@echo "⚠️  This target has incomplete dependencies!"
+	@echo "Try: touch paper/sections/intro.tex && make demo-bootstrapping"
+	@echo "Make will say 'nothing to be done' even though intro.tex changed."
+
+demo-bootstrapping: $(BUILD_DIR)/paper-incomplete.pdf
 
 clean:
 	@echo "Cleaning build artifacts..."
