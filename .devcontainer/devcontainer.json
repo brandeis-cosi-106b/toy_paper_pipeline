@@ -1,0 +1,11 @@
+{
+  "name": "COSI 106B - Paper Pipeline",
+  "image": "ghcr.io/brandeis-cosi-106b/paper-pipeline:latest",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "tomoki1207.pdf"
+      ]
+    }
+  }
+}
