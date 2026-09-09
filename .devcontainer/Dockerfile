@@ -12,6 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # paper needs: graphicx, cite, standalone (plot.tex), pgfplots, and bibtex.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         make \
+        openssh-server \
         python3 \
         python3-pip \
         texlive-latex-base \
@@ -21,6 +22,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         texlive-fonts-recommended \
         texlive-bibtex-extra \
     && rm -rf /var/lib/apt/lists/*
+
+# openssh-server above is what lets `gh codespace ssh` attach from a terminal.
+# Students in the browser do not need it (the web terminal uses the VS Code
+# server), but having it baked in means the container we test from the CLI is
+# byte-identical to the one students get.
 
 # Correctness-automation targets (make lint / make typecheck).
 RUN pip3 install --break-system-packages --no-cache-dir ruff mypy
