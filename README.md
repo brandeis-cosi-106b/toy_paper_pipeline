@@ -19,7 +19,8 @@ That's it. `make`, `python3`, LaTeX, `ruff`, and `mypy` are already installed in
 the environment. Work through [EXPLORATION.md](EXPLORATION.md) from there.
 
 To look at the paper you just built, open `build/paper.pdf` from the file list on
-the left.
+the left. If it doesn't render, right-click the file and choose **Download** —
+your browser's own PDF viewer will open it.
 
 > Your codespace is temporary. Nothing you type is saved back to this
 > repository, and the environment shuts itself down after you stop using it.
