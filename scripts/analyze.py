@@ -14,6 +14,7 @@ No external dependencies required - uses only Python standard library.
 import csv
 from pathlib import Path
 
+
 def main() -> None:
     # Read the data using standard library
     baseline_times = []

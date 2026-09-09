@@ -30,13 +30,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Correctness-automation targets (make lint / make typecheck).
 #
-# Pinned deliberately. Unpinned, a newer ruff turns on import-organization
-# checks by default and reports issues in scripts/analyze.py, so `make lint`
-# prints a warning instead of the clean pass the walkthrough depends on.
-# These versions match the instructor's machine.
+# Pinned so every student sees identical output. Bump deliberately, and
+# re-check `make lint` afterwards: the walkthrough depends on the main
+# pipeline linting clean while only the example files fail.
 RUN pip3 install --break-system-packages --no-cache-dir \
-        ruff==0.14.14 \
-        mypy==1.19.1
+        ruff==0.16.6 \
+        mypy==2.3.1
 
 # Build-time smoke test: prove the whole pipeline actually runs in this image.
 # If a texlive package is missing, the image build fails here rather than in
