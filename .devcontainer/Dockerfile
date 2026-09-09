@@ -29,7 +29,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # byte-identical to the one students get.
 
 # Correctness-automation targets (make lint / make typecheck).
-RUN pip3 install --break-system-packages --no-cache-dir ruff mypy
+#
+# Pinned deliberately. Unpinned, a newer ruff turns on import-organization
+# checks by default and reports issues in scripts/analyze.py, so `make lint`
+# prints a warning instead of the clean pass the walkthrough depends on.
+# These versions match the instructor's machine.
+RUN pip3 install --break-system-packages --no-cache-dir \
+        ruff==0.14.14 \
+        mypy==1.19.1
 
 # Build-time smoke test: prove the whole pipeline actually runs in this image.
 # If a texlive package is missing, the image build fails here rather than in
