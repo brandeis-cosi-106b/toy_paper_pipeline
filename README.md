@@ -4,6 +4,30 @@ A pedagogical build system that coordinates Python, LaTeX, and Make to produce a
 
 **Purpose**: Instructor-led demonstration of coordination automation, correctness automation, and the limits of automation.
 
+## Quick Start: Run This in Your Browser (No Install)
+
+**In class, use this.** It needs nothing on your laptop except a browser and a
+GitHub account.
+
+1. Go to
+   **<https://codespaces.new/brandeis-cosi-106b/toy_paper_pipeline/tree/class_demo>**
+2. Click **Create codespace**.
+3. Wait for the terminal to appear at the bottom of the window (about a minute).
+4. Type `make` and press Enter.
+
+That's it. `make`, `python3`, LaTeX, `ruff`, and `mypy` are already installed in
+the environment. Work through [EXPLORATION.md](EXPLORATION.md) from there.
+
+To look at the paper you just built, open `build/paper.pdf` from the file list on
+the left.
+
+> Your codespace is temporary. Nothing you type is saved back to this
+> repository, and the environment shuts itself down after you stop using it.
+> Keep your worksheet answers somewhere outside the codespace.
+
+The local-install instructions below are only needed if you want to run this on
+your own machine later.
+
 ## For Instructors
 
 **See [INSTRUCTOR_NOTES.md](INSTRUCTOR_NOTES.md)** for the complete walkthrough script, including:
